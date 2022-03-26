@@ -1,29 +1,18 @@
-import "./App.css";
-import { Route, Switch, useLocation } from "react-router-dom";
-import { ProductsProvider } from './contexts/ProductsContext';
-import { CartProvider } from './contexts/CartContext';
-import Menu from './components/Menu';
-import { AnimatePresence } from "framer-motion"; 
-import HomePage from './component/pages/HomePage';
-
+import { Routes, Route } from "react-router-dom"
+import MenuBar from "./components/MenuBar/MenuBar"
+import Home from "./pages/Home/Home"
+import SignIn from "./pages/SignIn/SignIn"
 
 function App() {
-  const location = useLocation();
   return (
-    <div className="App">
-      <ProductsProvider>
-        <CartProvider>
-        <Menu/>
-        <AnimatePresence>
-          <Switch>
-            <Route path="/" exact component={HomePage}/>
-
-          </Switch>
-        </AnimatePresence>
-        </CartProvider>
-      </ProductsProvider>
-    </div >
-  );
+    <div>
+      <MenuBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<SignIn />} />
+      </Routes>
+    </div>
+  )
 }
 
-export default App;
+export default App
