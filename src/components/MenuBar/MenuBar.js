@@ -1,32 +1,38 @@
-import * as React from "react"
-import AppBar from "@mui/material/AppBar"
-import Box from "@mui/material/Box"
-import Toolbar from "@mui/material/Toolbar"
-import Typography from "@mui/material/Typography"
-import Button from "@mui/material/Button"
-import IconButton from "@mui/material/IconButton"
-import MenuIcon from "@mui/icons-material/Menu"
+import React, { useState } from "react"
+import {
+  Nav,
+  Navbar,
+  NavbarBrand,
+  NavbarToggler,
+  NavLink,
+  NavItem,
+  Collapse,
+} from "reactstrap"
 
 export default function MenuBar() {
+  const [isOpen, setToggle] = useState(false)
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <div>
+      <Navbar color="secondary" light>
+        <NavbarToggler
+          className="me-2"
+          onClick={() => setToggle(isOpen ? false : true)}
+        />
+        <NavbarBrand className="me-auto" href="/">
+          Apparel Store
+        </NavbarBrand>
+        <Collapse navbar isOpen={isOpen}>
+          <Nav navbar>
+            <NavItem>
+              <NavLink href="/profile">Profile</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/cart">Cart</NavLink>
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </Navbar>
+    </div>
   )
 }
