@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react"
-import { getProducts } from "../../actions/product"
-import { connect } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { getProducts } from "../../api/fetchProducts"
 
-const Products = ({ items, getProducts }) => {
-  const [products, setProducts] = useState([])
+const Products = ({ getProducts }) => {
+  const { prod } = getProducts()
+
+  // const dispatch = useDispatch()
+  const allProducts = useSelector((state) => {
+    return state.allProducts.products
+  })
+
   useEffect(() => {
-    getProducts()
-    setProducts(items)
+    console.log("=> " + prod)
   }, [])
 
-  return <div>Products</div>
+  return <div>Product</div>
 }
 
-const mapStateToProps = (state) => ({
-  items: state.products,
-})
-
-export default connect(mapStateToProps, { getProducts })(Products)
+export default Products

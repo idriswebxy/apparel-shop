@@ -110,7 +110,7 @@ class DesktopContainer extends Component {
                   Cart
                 </Menu.Item>
                 <Menu.Item position="right">
-                  <Button as="a" inverted={!fixed}>
+                  <Button as="a" inverted={!fixed} href="/login">
                     Log in
                   </Button>
                   <Button
@@ -118,6 +118,7 @@ class DesktopContainer extends Component {
                     inverted={!fixed}
                     primary={fixed}
                     style={{ marginLeft: "0.5em" }}
+                    href="/register"
                   >
                     Sign Up
                   </Button>
@@ -167,15 +168,19 @@ class MobileContainer extends Component {
               All Products
             </Menu.Item>
             <Menu.Item as="a">Cart</Menu.Item>
-            <Menu.Item as="a">Log in</Menu.Item>
-            <Menu.Item as="a">Sign Up</Menu.Item>
+            <Menu.Item as="a" href="/login">
+              Log in
+            </Menu.Item>
+            <Menu.Item as="a" href="/register">
+              Sign Up
+            </Menu.Item>
           </Sidebar>
 
           <Sidebar.Pusher dimmed={sidebarOpened}>
             <Segment
               inverted
               textAlign="center"
-              style={{ minHeight: 350, padding: "1em 0em" }}
+              style={{ minHeight: 1000, padding: "1em 0em" }}
               vertical
             >
               <Container>
