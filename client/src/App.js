@@ -4,7 +4,6 @@ import Home from "./pages/Home/Home"
 import LoginForm from "./components/AuthForm/LoginForm"
 import RegisterForm from "./components/AuthForm/RegisterForm"
 import Products from "./pages/Products/Products"
-import { Provider } from "react-redux"
 
 function App() {
   return (
