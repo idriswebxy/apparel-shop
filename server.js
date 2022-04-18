@@ -4,7 +4,8 @@ const cors = require("cors")
 
 app.use(cors())
 
-// app.use(express.json({ extended: false }))
+// @ts-ignore
+app.use(express.json({ extended: false }))
 
 app.use("/api/products", require("./routes/api/products"))
 

@@ -5,10 +5,10 @@ import App from "./App"
 import "./App.css"
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.Fragment>
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <App />
     </BrowserRouter>
-  </React.StrictMode>,
+  </React.Fragment>,
   document.getElementById("root")
 )
