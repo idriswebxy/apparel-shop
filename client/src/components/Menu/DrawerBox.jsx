@@ -12,6 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu"
 import ListItem from "@mui/material/ListItem"
 import ListItemText from "@mui/material/ListItemText"
 import Button from "@mui/material/Button"
+import { Link } from "react-router-dom"
 
 const drawerWidth = 240
 
@@ -25,13 +26,13 @@ export default function PersistentDrawerLeft() {
   const FullList = () => {
     return (
       <List>
-        <ListItem>
+        <ListItem button component={Link} to="/">
           <ListItemText>Home</ListItemText>
         </ListItem>
-        <ListItem>
+        <ListItem button component={Link} to="/login">
           <ListItemText>Login</ListItemText>
         </ListItem>
-        <ListItem>
+        <ListItem button component={Link} to="/register">
           <ListItemText>Register</ListItemText>
         </ListItem>
       </List>

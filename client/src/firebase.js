@@ -1,15 +1,25 @@
-// Firebase App (the core Firebase SDK) is always required and must be listed first
-import firebase from "firebase/compat/app"
-// If you are using v7 or any earlier version of the JS SDK, you should import firebase using namespace import
-
-// Add the Firebase products that you want to use
-import "firebase/compat/auth"
-import "firebase/compat/firestore"
-
-const apiKey = process.env.API_KEY
+// Your web app's Firebase configuration
+import { initializeApp } from "firebase/app"
+import {
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut,
+} from "firebase/auth"
+import {
+  getFirestore,
+  query,
+  getDocs,
+  collection,
+  where,
+  addDoc,
+} from "firebase/firestore"
 
 const firebaseConfig = {
-  apiKey: { apiKey },
+  apiKey: "AIzaSyDShXJC9ntPjuNARw3DchIkw4rp6CPmbyA",
   authDomain: "clothing-store-76c58.firebaseapp.com",
   projectId: "clothing-store-76c58",
   storageBucket: "clothing-store-76c58.appspot.com",
@@ -17,9 +27,76 @@ const firebaseConfig = {
   appId: "1:945228809735:web:5ac34582b99ec28bd38ca2",
 }
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig)
+const auth = getAuth(app)
+const db = getFirestore(app)
+const googleProvider = new GoogleAuthProvider()
 
-export const ref = firebase.firestore().collection("products")
-export const imgRef = firebase.firestore().collection("img")
-export const socialRef = firebase.firestore().collection("social")
+const signInWithGoogle = async () => {
+  try {
+    const res = await signInWithPopup(auth, googleProvider)
+    const user = res.user
+    const q = query(collection(db, "users"), where("uid", "==", user.uid))
+    const docs = await getDocs(q)
+    if (docs.docs.length === 0) {
+      await addDoc(collection(db, "users"), {
+        uid: user.uid,
+        name: user.displayName,
+        authProvider: "google",
+        email: user.email,
+      })
+    }
+  } catch (err) {
+    console.error(err)
+    alert(err.message)
+  }
+}
+
+const logInWithEmailAndPassword = async (email, password) => {
+  try {
+    await signInWithEmailAndPassword(auth, email, password)
+  } catch (err) {
+    console.error(err)
+    alert(err.message)
+  }
+}
+
+const registerWithEmailAndPassword = async (name, email, password) => {
+  try {
+    const res = await createUserWithEmailAndPassword(auth, email, password)
+    const user = res.user
+    await addDoc(collection(db, "users"), {
+      uid: user.uid,
+      name,
+      authProvider: "local",
+      email,
+    })
+  } catch (err) {
+    console.error(err)
+    alert(err.message)
+  }
+}
+
+const sendPasswordReset = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email)
+    alert("Password reset link sent!")
+  } catch (err) {
+    console.error(err)
+    alert(err.message)
+  }
+}
+
+const logout = () => {
+  signOut(auth)
+}
+
+export {
+  auth,
+  db,
+  signInWithGoogle,
+  logInWithEmailAndPassword,
+  registerWithEmailAndPassword,
+  sendPasswordReset,
+  logout,
+}
