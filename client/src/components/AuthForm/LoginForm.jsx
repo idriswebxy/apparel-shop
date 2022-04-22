@@ -13,12 +13,14 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
+import GoogleButton from "react-google-button"
+import Spinner from "../Loader/Spinner"
 import {
   auth,
   logInWithEmailAndPassword,
   signInWithGoogle,
 } from "../../firebase"
-import GoogleButton from "react-google-button"
+import { useAuthState } from "react-firebase-hooks/auth"
 
 function Copyright(props) {
   return (
@@ -40,10 +42,11 @@ function Copyright(props) {
 
 const theme = createTheme()
 
-export default function SignIn() {
+const SignIn = () => {
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
   const navigate = useNavigate()
+  const [user, loading, error] = useAuthState(auth)
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -53,6 +56,13 @@ export default function SignIn() {
       password: data.get("password"),
     })
   }
+
+  useEffect(() => {
+    if (loading) {
+      return <Spinner />
+    }
+    if (user) navigate("/dashboard")
+  }, [user, loading])
 
   return (
     <ThemeProvider theme={theme}>
@@ -134,3 +144,5 @@ export default function SignIn() {
     </ThemeProvider>
   )
 }
+
+export default SignIn

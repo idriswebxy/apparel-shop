@@ -41,7 +41,7 @@ function Copyright(props) {
 
 const theme = createTheme()
 
-export default function SignUp() {
+const SignUp = () => {
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
   const [name, setName] = useState("")
@@ -155,3 +155,5 @@ export default function SignUp() {
     </ThemeProvider>
   )
 }
+
+export default SignUp

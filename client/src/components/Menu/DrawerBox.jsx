@@ -29,6 +29,9 @@ export default function PersistentDrawerLeft() {
         <ListItem button component={Link} to="/">
           <ListItemText>Home</ListItemText>
         </ListItem>
+        <ListItem button component={Link} to="/dashboard">
+          <ListItemText>Dashboard</ListItemText>
+        </ListItem>
         <ListItem button component={Link} to="/login">
           <ListItemText>Login</ListItemText>
         </ListItem>
