@@ -7,7 +7,7 @@ import NavBar from "./components/Menu/NavBar"
 import ProductsPage from "./pages/Products/ProductsPage"
 import DashboardPage from "./pages/Dashboard/DashboardPage"
 import Loader from "./components/Loader/Spinner"
-import PrivateRoute from "./components/PrivateRoute/PrivateRoute"
+import PrivateRoute from "./components/Routes/PrivateRoute"
 import Page404 from "./pages/Page404/Page404"
 
 const App = () => {
