@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useNavigate } from "react-router-dom"
 import "./Dashboard.css"
-import { auth, db, logout } from "../../firebase"
+import { auth, db } from "../../firebase"
 import { query, collection, getDocs, where } from "firebase/firestore"
+import { signOut } from "firebase/auth"
 import Spinner from "../Loader/Spinner"
 
 const Dashboard = () => {
@@ -35,7 +36,7 @@ const Dashboard = () => {
         Logged in as
         <div>{name}</div>
         <div>{user?.email}</div>
-        <button className="dashboard__btn" onClick={logout}>
+        <button className="dashboard__btn" onClick={signOut}>
           Logout
         </button>
       </div>

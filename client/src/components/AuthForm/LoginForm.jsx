@@ -15,12 +15,8 @@ import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import GoogleButton from "react-google-button"
 import Spinner from "../Loader/Spinner"
-import {
-  auth,
-  logInWithEmailAndPassword,
-  signInWithGoogle,
-} from "../../firebase"
-import { useAuthState } from "react-firebase-hooks/auth"
+import { auth } from "../../firebase"
+import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth"
 
 function Copyright(props) {
   return (
@@ -47,6 +43,7 @@ const SignIn = () => {
   const [password, setPassword] = useState(null)
   const navigate = useNavigate()
   const [user, loading, error] = useAuthState(auth)
+  const [signInWithGoogle] = useSignInWithGoogle(auth)
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -61,7 +58,9 @@ const SignIn = () => {
     if (loading) {
       return <Spinner />
     }
-    if (user) navigate("/dashboard")
+    if (user) {
+      navigate("/dashboard")
+    }
   }, [user, loading])
 
   return (

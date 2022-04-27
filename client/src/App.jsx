@@ -9,8 +9,12 @@ import DashboardPage from "./pages/Dashboard/DashboardPage"
 import Loader from "./components/Loader/Spinner"
 import PrivateRoute from "./components/Routes/PrivateRoute"
 import Page404 from "./pages/Page404/Page404"
+import { useAuthState } from "react-firebase-hooks/auth"
+import { auth } from "../src/firebase"
 
 const App = () => {
+  const [user, loading, error] = useAuthState(auth)
+
   return (
     <div>
       <NavBar />
