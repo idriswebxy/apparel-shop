@@ -12,7 +12,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { useAuthState } from "react-firebase-hooks/auth"
+import {
+  useAuthState,
+  useCreateUserWithEmailAndPassword,
+} from "react-firebase-hooks/auth"
 import { useNavigate } from "react-router-dom"
 import {
   getAuth,
@@ -21,8 +24,7 @@ import {
   sendEmailVerification,
 } from "firebase/auth"
 import { auth } from "../../firebase"
-
-import GoogleButton from "react-google-button"
+// import GoogleButton from "react-google-button"
 import Spinner from "../Loader/Spinner"
 
 function Copyright(props) {
@@ -49,11 +51,12 @@ const SignUp = () => {
   const navigate = useNavigate()
   const [user, loading] = useAuthState(auth)
   const history = useNavigate()
-  const [error, setError] = useState("")
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [createUserWithEmailAndPassword, error] =
+    useCreateUserWithEmailAndPassword(auth)
 
   // const { setTimeActive } = useAuthValue()   console.log()
 
@@ -62,7 +65,6 @@ const SignUp = () => {
     const data = new FormData(event.currentTarget)
     createUserWithEmailAndPassword(data.get("email"), data.get("password"))
   }
-
   // const validatePassword = () => {
   //   let isValid = true
   //   if (password !== "" && confirmPassword !== "") {
@@ -159,14 +161,6 @@ const SignUp = () => {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -178,7 +172,7 @@ const SignUp = () => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

@@ -17,6 +17,7 @@ import GoogleButton from "react-google-button"
 import Spinner from "../Loader/Spinner"
 import { auth } from "../../firebase"
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth"
+import { signOut, signInWithPopup } from "firebase/auth"
 
 function Copyright(props) {
   return (
@@ -48,10 +49,6 @@ const SignIn = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    })
   }
 
   useEffect(() => {
@@ -119,11 +116,8 @@ const SignIn = () => {
             >
               Sign In
             </Button>
-            <GoogleButton
-              onClick={() => {
-                signInWithGoogle()
-              }}
-            />
+            <GoogleButton onClick={() => signInWithPopup()} />
+
             <Grid container>
               <Grid item xs>
                 <Link href="/" variant="body2">

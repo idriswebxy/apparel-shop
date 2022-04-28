@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import Product from "./Product"
 import Loader from "../Loader/Spinner"
-// import { getProductsApi, useGetAllProducts } from "../../api/fetchProducts"
-// import { getAllProducts } from "../../api/fetchProducts".
+
 const Products = () => {
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
