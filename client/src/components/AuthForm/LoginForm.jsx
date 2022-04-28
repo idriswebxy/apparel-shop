@@ -116,7 +116,7 @@ const SignIn = () => {
             >
               Sign In
             </Button>
-            <GoogleButton onClick={() => signInWithPopup()} />
+            <GoogleButton onClick={() => console.log("Google Clicked!")} />
 
             <Grid container>
               <Grid item xs>
