@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useEffect } from "react"
 import { styled, useTheme } from "@mui/material/styles"
 import Box from "@mui/material/Box"
 import Drawer from "@mui/material/Drawer"
@@ -13,15 +13,23 @@ import ListItem from "@mui/material/ListItem"
 import ListItemText from "@mui/material/ListItemText"
 import Button from "@mui/material/Button"
 import { Link } from "react-router-dom"
+import { useAuthState } from "react-firebase-hooks/auth"
+import { auth, logOut } from "../../firebase"
+import Spinner from "../Loader/Spinner"
 
 const drawerWidth = 240
 
 export default function PersistentDrawerLeft() {
   const [open, setOpen] = React.useState(false)
+  const [user, loading, error] = useAuthState(auth)
 
   const toggleDrawer = (open) => (event) => {
     setOpen(open)
   }
+
+  useEffect(() => {
+    if (loading) return <Spinner />
+  }, [loading])
 
   const FullList = () => {
     return (
@@ -76,12 +84,25 @@ export default function PersistentDrawerLeft() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Apparel Store
           </Typography>
-          <Button color="inherit" href="/login">
-            Login
-          </Button>
-          <Button color="inherit" href="/register">
-            Sign Up
-          </Button>
+          <div style={{ color: "green" }}>Welcome {user?.email}</div>
+          <div>
+            {user ? (
+              <div>
+                <Button onClick={() => logOut()} color="inherit" href="/login">
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <Button color="inherit" href="/login">
+                  Login
+                </Button>
+                <Button color="inherit" href="/register">
+                  Sign Up
+                </Button>
+              </div>
+            )}
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer

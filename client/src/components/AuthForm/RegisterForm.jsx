@@ -26,6 +26,7 @@ import {
 import { auth } from "../../firebase"
 // import GoogleButton from "react-google-button"
 import Spinner from "../Loader/Spinner"
+import { signUpUser } from "../../firebase"
 
 function Copyright(props) {
   return (
@@ -63,11 +64,12 @@ const SignUp = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    createUserWithEmailAndPassword(data.get("email"), data.get("password"))
+    // createUserWithEmailAndPassword(data.get("email"), data.get("password"))
+    signUpUser(auth, data.get("email"), data.get("password"))
   }
   // const validatePassword = () => {
   //   let isValid = true
-  //   if (password !== "" && confirmPassword !== "") {
+  // if (password !== "" && confirmPassword !== "") {
   //     if (password !== confirmPassword) {
   //       isValid = false
   //       setError("Passwords does not match")

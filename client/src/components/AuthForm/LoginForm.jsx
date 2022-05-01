@@ -15,9 +15,8 @@ import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import GoogleButton from "react-google-button"
 import Spinner from "../Loader/Spinner"
-import { auth } from "../../firebase"
+import { auth, signInUser } from "../../firebase"
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth"
-import { signOut, signInWithPopup } from "firebase/auth"
 
 function Copyright(props) {
   return (
@@ -49,6 +48,7 @@ const SignIn = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
+    signInUser(auth, data.get("email"), data.get("password"))
   }
 
   useEffect(() => {
@@ -116,7 +116,8 @@ const SignIn = () => {
             >
               Sign In
             </Button>
-            <GoogleButton onClick={() => console.log("Google Clicked!")} />
+
+            <GoogleButton onClick={() => signInWithGoogle()} />
 
             <Grid container>
               <Grid item xs>
