@@ -25,7 +25,7 @@ import {
 } from "firebase/auth"
 import { auth } from "../../firebase"
 // import GoogleButton from "react-google-button"
-import Spinner from "../Loader/Spinner"
+import Spinner from "../Loader/Loader"
 import { signUpUser } from "../../firebase"
 
 function Copyright(props) {

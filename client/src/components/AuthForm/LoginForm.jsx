@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import GoogleButton from "react-google-button"
-import Spinner from "../Loader/Spinner"
+import Loader from "../Loader/Loader"
 import { auth, signInUser } from "../../firebase"
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth"
 
@@ -53,7 +53,7 @@ const SignIn = () => {
 
   useEffect(() => {
     if (loading) {
-      return <Spinner />
+      return <Loader />
     }
     if (user) {
       navigate("/dashboard")
@@ -63,7 +63,6 @@ const SignIn = () => {
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,

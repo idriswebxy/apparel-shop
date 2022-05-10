@@ -9,6 +9,7 @@ import {
   signOut,
 } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
+import { alertSender } from "./utils/alertSender"
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -24,8 +25,9 @@ const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 
-const provider = new GoogleAuthProvider()
+// const provider = new GoogleAuthProvider()
 
+// Sign UP user with firebase
 export const signUpUser = (auth, email, password) => {
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -40,7 +42,7 @@ export const signUpUser = (auth, email, password) => {
     })
 }
 
-// Sign in user with firabase
+// Sign IN user with firebase
 export const signInUser = (auth, email, password) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -50,6 +52,7 @@ export const signInUser = (auth, email, password) => {
     .catch((error) => {
       const errorCode = error.code
       const errorMessage = error.message
+      alertSender(errorCode, errorMessage)
     })
 }
 
