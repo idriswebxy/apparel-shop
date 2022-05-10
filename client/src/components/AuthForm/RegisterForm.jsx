@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useEffect, useState } from "react"
 import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -12,6 +12,21 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
+import {
+  useAuthState,
+  useCreateUserWithEmailAndPassword,
+} from "react-firebase-hooks/auth"
+import { useNavigate } from "react-router-dom"
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth"
+import { auth } from "../../firebase"
+// import GoogleButton from "react-google-button"
+import Spinner from "../Loader/Loader"
+import { signUpUser } from "../../firebase"
 
 function Copyright(props) {
   return (
@@ -33,15 +48,63 @@ function Copyright(props) {
 
 const theme = createTheme()
 
-export default function SignUp() {
+const SignUp = () => {
+  const navigate = useNavigate()
+  const [user, loading] = useAuthState(auth)
+  const history = useNavigate()
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [createUserWithEmailAndPassword, error] =
+    useCreateUserWithEmailAndPassword(auth)
+
+  // const { setTimeActive } = useAuthValue()   console.log()
+
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    })
+    // createUserWithEmailAndPassword(data.get("email"), data.get("password"))
+    signUpUser(auth, data.get("email"), data.get("password"))
   }
+  // const validatePassword = () => {
+  //   let isValid = true
+  // if (password !== "" && confirmPassword !== "") {
+  //     if (password !== confirmPassword) {
+  //       isValid = false
+  //       setError("Passwords does not match")
+  //     }
+  //   }
+
+  // const register = (e) => {
+  //   e.preventDefault()
+  //   setError("")
+  //   if (validatePassword()) {
+  //     // Create a new user with email and password using firebase
+  //     createUserWithEmailAndPassword(auth, email, password)
+  //       .then(() => {
+  //         sendEmailVerification(auth.currentUser)
+  //           .then(() => {
+  //             // setTimeActive(true)
+  //             navigate("/verify-email")
+  //           })
+  //           .catch((err) => alert(err.message))
+  //       })
+  //       .catch((err) => setError(err.message))
+  //   }
+  //   setEmail("")
+  //   setPassword("")
+  //   setConfirmPassword("")
+  // }
+
+  useEffect(() => {
+    if (loading) {
+      return <Spinner />
+    }
+    if (user) {
+      navigate("/dashboard")
+    }
+  }, [user, loading])
 
   return (
     <ThemeProvider theme={theme}>
@@ -68,7 +131,7 @@ export default function SignUp() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              {/* <Grid item xs={12} sm={12}>
                 <TextField
                   autoComplete="given-name"
                   name="firstName"
@@ -78,17 +141,7 @@ export default function SignUp() {
                   label="First Name"
                   autoFocus
                 />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -110,14 +163,6 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -129,7 +174,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
@@ -141,3 +186,5 @@ export default function SignUp() {
     </ThemeProvider>
   )
 }
+
+export default SignUp

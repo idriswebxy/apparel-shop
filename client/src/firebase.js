@@ -1,25 +1,61 @@
-// Firebase App (the core Firebase SDK) is always required and must be listed first
-import firebase from "firebase/compat/app"
-// If you are using v7 or any earlier version of the JS SDK, you should import firebase using namespace import
-
-// Add the Firebase products that you want to use
-import "firebase/compat/auth"
-import "firebase/compat/firestore"
-
-const apiKey = process.env.API_KEY
+// Your web app's Firebase configuration
+import { initializeApp } from "firebase/app"
+import {
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth"
+import { getFirestore } from "firebase/firestore"
+import { alertSender } from "./utils/alertSender"
 
 const firebaseConfig = {
-  apiKey: { apiKey },
-  authDomain: "clothing-store-76c58.firebaseapp.com",
-  projectId: "clothing-store-76c58",
-  storageBucket: "clothing-store-76c58.appspot.com",
-  messagingSenderId: "945228809735",
-  appId: "1:945228809735:web:5ac34582b99ec28bd38ca2",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 }
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig)
+export const auth = getAuth(app)
+export const db = getFirestore(app)
 
-export const ref = firebase.firestore().collection("products")
-export const imgRef = firebase.firestore().collection("img")
-export const socialRef = firebase.firestore().collection("social")
+// const provider = new GoogleAuthProvider()
+
+// Sign UP user with firebase
+export const signUpUser = (auth, email, password) => {
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code
+      const errorMessage = error.message
+      // ..
+    })
+}
+
+// Sign IN user with firebase
+export const signInUser = (auth, email, password) => {
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user
+    })
+    .catch((error) => {
+      const errorCode = error.code
+      const errorMessage = error.message
+      alertSender(errorCode, errorMessage)
+    })
+}
+
+export const logOut = () => {
+  signOut(auth)
+}

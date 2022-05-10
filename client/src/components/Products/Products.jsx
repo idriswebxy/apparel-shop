@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
 import Product from "./Product"
-import Loader from "../Loader/Spinner"
-// import { getProductsApi, useGetAllProducts } from "../../api/fetchProducts"
-// import { getAllProducts } from "../../api/fetchProducts".
+import Loader from "../Loader/Loader"
+
 const Products = () => {
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -19,7 +18,13 @@ const Products = () => {
     getAllProducts()
   }, [])
 
-  return isLoading ? <Loader /> : <Product items={items} />
+  return isLoading ? (
+    <Loader />
+  ) : (
+    <div>
+      <Product items={items} />
+    </div>
+  )
 }
 
 export default Products
