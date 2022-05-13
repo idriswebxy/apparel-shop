@@ -3,8 +3,6 @@ import Alert from "@mui/material/Alert"
 import Stack from "@mui/material/Stack"
 import { alertSender } from "../../utils/alertSender"
 
-useEffect(() => {}, [])
-
 const successAlert = (
   <div>
     <Stack sx={{ width: "100%" }} spacing={2}>

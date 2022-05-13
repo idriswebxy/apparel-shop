@@ -8,10 +8,11 @@ app.use(cors())
 app.use(express.json({ extended: false }))
 
 app.use("/api/products", require("./routes/api/products"))
+app.use("/api/test", require("./routes/api/products"))
 
-app.get("/", (req, res) => {
-  res.send("Server Test")
-})
+// app.get("/", (req, res) => {
+//   res.send("Server Test")
+// })
 
 const PORT = process.env.PORT || 5000
 

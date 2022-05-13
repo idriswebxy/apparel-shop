@@ -15,6 +15,7 @@ import CartPage from "./layout/Cart/CartPage"
 import { successAlert, errorAlert } from "./components/Alert/Alerts"
 import { useEffect } from "react"
 import { alertSender } from "./utils/alertSender"
+import { writeUserData } from "./api/fetchProducts"
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth)
