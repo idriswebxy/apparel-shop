@@ -7,7 +7,7 @@ var serviceAccount = require("./service/clothing-store-76c58-firebase-adminsdk-x
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://clothing-store-76c58-default-rtdb.firebaseio.com",
+  databaseURL: process.env.FIREBASE_DATABASE,
 })
 
 // As an admin, the app has access to read and write all data, regardless of Security Rules
