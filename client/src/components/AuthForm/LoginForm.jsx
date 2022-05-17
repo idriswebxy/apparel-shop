@@ -51,7 +51,6 @@ const SignIn = () => {
     signInUser(auth, data.get("email"), data.get("password"))
   }
 
-  // @ts-ignore
   useEffect(() => {
     if (loading) {
       return <Loader />

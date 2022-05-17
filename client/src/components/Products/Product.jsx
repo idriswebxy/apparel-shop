@@ -18,7 +18,6 @@ const Product = ({ items }) => (
             {items.map((item) => (
               <Grid item key={item.id} xs={12} sm={6} md={4}>
                 <div>
-                  {/* <CardActionArea> */}
                   <CardMedia
                     component="img"
                     height="100%"

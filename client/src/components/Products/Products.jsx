@@ -8,7 +8,7 @@ const Products = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   const getAllProducts = async () => {
-    await axios.get("/api/products/all_products").then((res) => {
+    await axios.get("api/products/all_products").then((res) => {
       setItems(res.data)
       setIsLoading(false)
     })

@@ -31,7 +31,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 export const db = getFirestore(app)
-const database = getDatabase(app)
 
 const writeUserData = (userId, name, email, imageUrl) => {
   const db = getDatabase()
@@ -42,20 +41,21 @@ const writeUserData = (userId, name, email, imageUrl) => {
   })
 }
 
-const userId = "01"
+export const getValue = async (userId) => {
+  const dbRef = ref(getDatabase())
 
-const dbRef = ref(getDatabase())
-get(child(dbRef, `users/${userId}`))
-  .then((snapshot) => {
-    if (snapshot.exists()) {
-      console.log(snapshot.val())
-    } else {
-      console.log("No data available")
-    }
-  })
-  .catch((error) => {
-    console.error(error)
-  })
+  get(child(dbRef, `users/${userId}`))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log(snapshot.val())
+      } else {
+        console.log("No data available")
+      }
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
 
 const writeNewPost = (uid, username, picture, title, body) => {
   const db = getDatabase()
@@ -69,7 +69,6 @@ const writeNewPost = (uid, username, picture, title, body) => {
     starCount: 0,
     authorPic: picture,
   }
-
   // Get a key for a new Post.
   const newPostKey = push(child(ref(db), "posts")).key
 
@@ -84,8 +83,9 @@ const writeNewPost = (uid, username, picture, title, body) => {
 // const provider = new GoogleAuthProvider()
 
 // Sign UP user with firebase
-export const signUpUser = (auth, email, password) => {
-  createUserWithEmailAndPassword(auth, email, password)
+
+export const signUpUser = async (auth, email, password) => {
+  await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user
@@ -99,11 +99,12 @@ export const signUpUser = (auth, email, password) => {
 }
 
 // Sign IN user with firebase
-export const signInUser = (auth, email, password) => {
-  signInWithEmailAndPassword(auth, email, password)
+export const signInUser = async (auth, email, password) => {
+  await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user
+      console.log(user.uid)
     })
     .catch((error) => {
       const errorCode = error.code
@@ -112,6 +113,6 @@ export const signInUser = (auth, email, password) => {
     })
 }
 
-export const logOut = () => {
-  signOut(auth)
+export const logOut = async () => {
+  await signOut(auth)
 }
