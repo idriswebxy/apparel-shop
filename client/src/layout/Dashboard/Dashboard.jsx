@@ -9,7 +9,6 @@ export default function Dashboard() {
   const [user, loading, error] = useAuthState(auth)
   const navigate = useNavigate()
 
-  // @ts-ignore
   useEffect(() => {
     if (!user) {
       navigate("/login")

@@ -32,12 +32,10 @@ const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 
-const writeUserData = (userId, name, email, imageUrl) => {
+export const addToCart = (product, userId) => {
   const db = getDatabase()
-  set(ref(db, "users/" + userId), {
-    username: name,
-    email: email,
-    profile_picture: imageUrl,
+  set(ref(db, "cart/" + userId), {
+    item: product,
   })
 }
 
@@ -74,16 +72,17 @@ const writeNewPost = (uid, username, picture, title, body) => {
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {}
-  // updates["/posts/" + newPostKey] = postData
+  updates["/posts/" + newPostKey] = postData
   updates["/users" + uid + "/" + newPostKey] = postData
 
   return update(ref(db), updates)
 }
 
-// const provider = new GoogleAuthProvider()
+// writeNewPost(1, "niko", "pic", "new post", { msg: "Hello" })
+
+// writeUserData(1, "James", "email@email.com", "image")
 
 // Sign UP user with firebase
-
 export const signUpUser = async (auth, email, password) => {
   await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -104,7 +103,6 @@ export const signInUser = async (auth, email, password) => {
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user
-      console.log(user.uid)
     })
     .catch((error) => {
       const errorCode = error.code

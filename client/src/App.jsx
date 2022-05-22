@@ -16,13 +16,22 @@ import { successAlert, errorAlert } from "./components/Alert/Alerts"
 import { useEffect } from "react"
 import { alertSender } from "./utils/alertSender"
 import { writeUserData } from "./api/fetchProducts"
+import { useNavigate } from "react-router-dom"
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth)
+  const navigate = useNavigate()
 
   let [alert, setAlert] = useState(false)
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    if (!user) {
+      navigate("/login")
+    }
+    if (loading) {
+      return <Loader />
+    }
+  }, [])
 
   return (
     <div>
