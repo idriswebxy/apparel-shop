@@ -17,6 +17,8 @@ import GoogleButton from "react-google-button"
 import Loader from "../Loader/Loader"
 import { auth, signInUser } from "../../firebase"
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth"
+import { useRecoilValue, useSetRecoilState } from "recoil"
+import { authState } from "../../recoil/auth/atoms"
 
 function Copyright(props) {
   return (
@@ -44,11 +46,14 @@ const SignIn = () => {
   const navigate = useNavigate()
   const [user, loading, error] = useAuthState(auth)
   const [signInWithGoogle] = useSignInWithGoogle(auth)
+  const setAuth = useSetRecoilState(authState)
+  let authz = useRecoilValue(authState)
 
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     signInUser(auth, data.get("email"), data.get("password"))
+    setAuth(true)
   }
 
   useEffect(() => {

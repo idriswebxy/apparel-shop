@@ -1,12 +1,15 @@
 // Your web app's Firebase configuration
 import { initializeApp } from "firebase/app"
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  getAuth,
+  setPersistence,
+  browserSessionPersistence,
 } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
+import { alertSender } from "./utils/alertSender"
 import {
   getDatabase,
   set,
@@ -16,7 +19,6 @@ import {
   push,
   update,
 } from "firebase/database"
-import { alertSender } from "./utils/alertSender"
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -113,4 +115,21 @@ export const signInUser = async (auth, email, password) => {
 
 export const logOut = async () => {
   await signOut(auth)
+}
+
+export const session = async (auth, email, password) => {
+  await setPersistence(auth, browserSessionPersistence)
+    .then(() => {
+      // Existing and future Auth states are now persisted in the current
+      // session only. Closing the window would clear any existing state even
+      // if a user forgets to sign out.
+      // ...
+      // New sign-in will be persisted with session persistence.
+      return signInWithEmailAndPassword(auth, email, password)
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code
+      const errorMessage = error.message
+    })
 }
