@@ -17,8 +17,8 @@ import GoogleButton from "react-google-button"
 import Loader from "../Loader/Loader"
 import { auth, signInUser } from "../../firebase"
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth"
-import { useRecoilValue, useSetRecoilState } from "recoil"
-import { authState } from "../../recoil/auth/atoms"
+import { authState } from "../../store/auth"
+import { useRecoilState } from "recoil"
 
 function Copyright(props) {
   return (
@@ -46,24 +46,24 @@ const SignIn = () => {
   const navigate = useNavigate()
   const [user, loading, error] = useAuthState(auth)
   const [signInWithGoogle] = useSignInWithGoogle(auth)
-  const setAuth = useSetRecoilState(authState)
-  let authz = useRecoilValue(authState)
+  const [authz, setAuth] = useRecoilState(authState)
 
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     signInUser(auth, data.get("email"), data.get("password"))
     setAuth(true)
+    navigate("/dashboard")
   }
 
   useEffect(() => {
+    if (user) {
+      // localStorage.setItem("userToken", user.accessToken)
+    }
     if (loading) {
       return <Loader />
     }
-    if (user) {
-      navigate("/dashboard")
-    }
-  }, [user, loading])
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>

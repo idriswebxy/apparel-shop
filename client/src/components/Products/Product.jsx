@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid"
 
 const theme = createTheme()
 
-const Product = ({ items, addToCart, userId }) => (
+const Product = ({ items, addToCart, userId }, props) => (
   <div>
     <ThemeProvider theme={theme}>
       <main>
@@ -28,7 +28,7 @@ const Product = ({ items, addToCart, userId }) => (
                     <Typography gutterBottom variant="h5" component="div">
                       {item.title}
                     </Typography>
-                    <Button onClick={() => addToCart(item, userId)}>
+                    <Button onClick={() => console.log(props)}>
                       Add To Cart
                     </Button>
                     <Typography variant="h6" gutterBottom component="div">

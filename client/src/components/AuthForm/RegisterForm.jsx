@@ -101,9 +101,9 @@ const SignUp = () => {
     if (loading) {
       return <Spinner />
     }
-    if (user) {
-      navigate("/dashboard")
-    }
+    // if (user) {
+    //   navigate("/dashboard")
+    // }
   }, [user, loading])
 
   return (

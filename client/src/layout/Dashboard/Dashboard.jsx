@@ -1,36 +1,37 @@
 import React, { useEffect, useState } from "react"
 import Products from "../../components/Products/Products"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { auth } from "../../firebase"
+import { addToCart, auth } from "../../firebase"
 import { useNavigate } from "react-router-dom"
 import Loader from "../../components/Loader/Loader"
-import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil"
-import { authState } from "../../recoil/auth/atoms"
-import { userAuthState } from "../../recoil/auth/selectors"
+import { authState } from "../../store/auth"
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
+import axios from "axios"
+import { getAllProducts, productState } from "../../store/product"
+import { loadingState } from "../../store/loader"
 
-export default function Dashboard() {
+const Dashboard = () => {
   const [user, loading] = useAuthState(auth)
   const navigate = useNavigate()
-  const [isAuthenticated, setIsAuthenticated] = useRecoilState(authState)
-  const setAuth = useSetRecoilState(authState)
-  let authz = useRecoilValue(authState)
+  // const authz = useRecoilValue(authState)
+  const setIsLoading = useSetRecoilState(loadingState)
+  const [items, setItems] = useRecoilState(productState)
+
+  // const getAllProducts = async () => {
+  //   await axios.get("https://fakestoreapi.com/products").then((res) => {
+  //     setItems(res.data)
+  //     setIsLoading(false)
+  //   })
+  // }
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login")
-    }
-    if (user) {
-      setAuth(true)
-    }
-    if (loading) {
-      return <Loader />
-    }
-    console.log(authz)
-  }, [])
+    setIsLoading(false)
+  }, [items])
 
   return (
     <div>
-      <Products />
+      <Products items={items} addToCart={addToCart} />
     </div>
   )
 }
+export default Dashboard

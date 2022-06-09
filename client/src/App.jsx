@@ -1,10 +1,10 @@
 import { Routes, Route, Router } from "react-router-dom"
 import React, { useState } from "react"
 import Home from "./layout/Home/Home"
-import Login from "./layout/Auth/Login"
-import Register from "./layout/Auth/Register"
+import LoginForm from "./components/AuthForm/LoginForm"
+import RegisterForm from "./components/AuthForm/RegisterForm"
 import NavBar from "./components/Menu/NavBar"
-import Products from "./layout/Products/Products"
+import Products from "./components/Products/Products"
 import Dashboard from "./layout/Dashboard/Dashboard"
 import Loader from "./components/Loader/Loader"
 import PrivateRoute from "./components/Routes/PrivateRoute"
@@ -16,52 +16,45 @@ import { successAlert, errorAlert } from "./components/Alert/Alerts"
 import { useEffect } from "react"
 import { alertSender } from "./utils/alertSender"
 import { useNavigate } from "react-router-dom"
-import { useRecoilValue, useSetRecoilState } from "recoil"
-import { authState } from "./recoil/auth/atoms"
+import CheckOutView from "./layout/CheckOut/CheckOutView"
+import Product from "./components/Products/Product"
+import { authState } from "./store/auth"
+import { useRecoilState } from "recoil"
 
 const App = () => {
-  const [user, loading, authenticated] = useAuthState(auth)
+  const [user, loading, error] = useAuthState(auth)
   const navigate = useNavigate()
-  let isAuthenticated = useRecoilValue(authState)
-  let setAuth = useSetRecoilState(authState)
   let [alert, setAlert] = useState(false)
-  let cartItems = useRecoilValue(authState)
+  // const [isAuthenticated, setIsAuthenticated] = useRecoilState(authState)
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login")
-    }
-    if (user) {
-      setAuth(true)
-    }
-    if (loading) {
-      return <Loader />
-    }
-    console.log(isAuthenticated)
-  }, [])
+    // if (loading) {
+    // }
+    // setIsAuthenticated(true)
+  }, [user, loading])
 
   return (
-    <div>
+    <React.Suspense fallback={<Loader />}>
       {alert ? successAlert : null}
       <NavBar />
       <Routes>
         <Route path="*" element={<Page404 />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginForm />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        {/* <Route path="/cart" element={<Cart />} /> */}
+        <Route path="/products" element={<Products />} />
+        <Route path="/cart" element={<Cart />} />
         <Route
-          path="/cart"
+          path="/checkout"
           element={
-            <PrivateRoute isAuthenticated={isAuthenticated}>
-              <Cart cartItems={cartItems} />
+            <PrivateRoute isAuthenticated={""}>
+              <CheckOutView />
             </PrivateRoute>
           }
-        ></Route>
-        <Route path="/register" element={<Register />} />
-        <Route path="/products" element={<Products />} />
+        />
+        <Route path="/register" element={<RegisterForm />} />
       </Routes>
-    </div>
+    </React.Suspense>
   )
 }
 

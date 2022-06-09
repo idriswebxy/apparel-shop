@@ -6,28 +6,16 @@ import { addToCart } from "../../firebase"
 import { useNavigate } from "react-router-dom"
 import { auth } from "../../firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
+import { getAllProducts, productState } from "../../store/product"
+import { useRecoilValue } from "recoil"
 
-const Products = () => {
-  const [items, setItems] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+const Products = (props) => {
+  // const [isLoading, setIsLoading] = useState(true)
   const [user, loading, error] = useAuthState(auth)
 
-  const getAllProducts = async () => {
-    await axios.get("https://fakestoreapi.com/products").then((res) => {
-      setItems(res.data)
-      setIsLoading(false)
-    })
-  }
-
-  useEffect(() => {
-    getAllProducts()
-  }, [])
-
-  return isLoading ? (
-    <Loader />
-  ) : (
+  return (
     <div>
-      <Product items={items} addToCart={addToCart} userId={user.uid} />
+      <Product items={props.items} addToCart={addToCart} userId={user.uid} />
     </div>
   )
 }

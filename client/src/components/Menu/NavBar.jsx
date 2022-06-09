@@ -20,10 +20,8 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import ShoppingCartIcon from "../Badges/ShoppingCartIcon"
 import LogoutIcon from "@mui/icons-material/Logout"
 import Loader from "../Loader/Loader"
-import { useRecoilValue } from "recoil"
-import { cartState } from "../../recoil/cart/atoms"
-import { useSetRecoilState } from "recoil"
-import { authState } from "../../recoil/auth/atoms"
+import { authState } from "../../store/auth"
+import { useRecoilState } from "recoil"
 
 const drawerWidth = 240
 
@@ -44,19 +42,18 @@ const fullList = (
   </List>
 )
 
-export default function NavBar() {
+const NavBar = () => {
   const [open, setOpen] = useState(false)
   const [user, loading, error] = useAuthState(auth)
   const navigate = useNavigate()
-  const totalItems = useRecoilValue(cartState)
-  const setAuth = useSetRecoilState(authState)
+  const [isAuthenicated, setIsAuthenticated] = useRecoilState(authState)
 
   const toggleDrawer = (open) => (event) => {
     setOpen(open)
   }
   const signOut = () => {
+    setIsAuthenticated(false)
     logOut()
-    setAuth(false)
   }
 
   return (
@@ -81,7 +78,7 @@ export default function NavBar() {
               <div style={{ display: "flex" }}>
                 <div style={{ color: "yellow" }}>Welcome {user?.email}</div>
                 <Button onClick={() => navigate("/cart")} color="inherit">
-                  <ShoppingCartIcon totalItems={totalItems} />
+                  <ShoppingCartIcon totalItems={""} />
                 </Button>
 
                 <Button onClick={() => signOut()} color="inherit" href="/login">
@@ -121,3 +118,4 @@ export default function NavBar() {
     </Box>
   )
 }
+export default NavBar
