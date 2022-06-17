@@ -53,7 +53,7 @@ const SignIn = () => {
     const data = new FormData(event.currentTarget)
     signInUser(auth, data.get("email"), data.get("password"))
     setAuth(true)
-    navigate("/dashboard")
+    navigate("/products")
   }
 
   useEffect(() => {

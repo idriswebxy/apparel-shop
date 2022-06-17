@@ -2,20 +2,32 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import Product from "./Product"
 import Loader from "../Loader/Loader"
-import { addToCart } from "../../firebase"
+// import { addToCart } from "../../firebase"
 import { useNavigate } from "react-router-dom"
 import { auth } from "../../firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { getAllProducts, productState } from "../../store/product"
-import { useRecoilValue } from "recoil"
+import { fetchProducts, productState } from "../../store/product"
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
+import { selectedProductState } from "../../store/product"
+import { loadingState } from "../../store/loader"
 
 const Products = (props) => {
-  // const [isLoading, setIsLoading] = useState(true)
-  const [user, loading, error] = useAuthState(auth)
+  const [loading] = useAuthState(auth)
+  const [isLoading, setIsLoading] = useRecoilState(loadingState)
+  const items = useRecoilValue(fetchProducts)
+  const setProductState = useSetRecoilState(selectedProductState)
+
+  useEffect(() => {
+    setIsLoading(false)
+  }, [])
 
   return (
     <div>
-      <Product items={props.items} addToCart={addToCart} userId={user.uid} />
+      {isLoading || loading ? (
+        <Loader />
+      ) : (
+        <Product items={items} setProductState={setProductState} />
+      )}
     </div>
   )
 }

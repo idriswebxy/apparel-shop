@@ -30,8 +30,8 @@ const fullList = (
     <ListItem button component={Link} to="/">
       <ListItemText>Home</ListItemText>
     </ListItem>
-    <ListItem button component={Link} to="/dashboard">
-      <ListItemText>Dashboard</ListItemText>
+    <ListItem button component={Link} to="/products">
+      <ListItemText>Products</ListItemText>
     </ListItem>
     <ListItem button component={Link} to="/login">
       <ListItemText>Login</ListItemText>
@@ -52,9 +52,11 @@ const NavBar = () => {
     setOpen(open)
   }
   const signOut = () => {
-    setIsAuthenticated(false)
+    // setIsAuthenticated(false)
     logOut()
   }
+
+  useEffect(() => {}, [])
 
   return (
     <Box sx={{ flexGrow: 1 }} onKeyDown={toggleDrawer(false)}>

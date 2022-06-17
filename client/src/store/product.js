@@ -2,9 +2,14 @@ import axios from "axios"
 import { atom, selector } from "recoil"
 
 export const productState = atom({
-  key: "productState",
+  key: "product",
+  defualt: [],
+})
+
+export const fetchProducts = atom({
+  key: "fetchProduct",
   default: selector({
-    key: "fetchAllProducts",
+    key: "fetchAllProductsApi",
     get: async ({ get }) => {
       try {
         const res = await axios.get("https://fakestoreapi.com/products")
@@ -14,4 +19,9 @@ export const productState = atom({
       }
     },
   }),
+})
+
+export const selectedProductState = atom({
+  key: "selectedProductState",
+  default: null,
 })

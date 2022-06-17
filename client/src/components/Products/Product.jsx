@@ -6,43 +6,47 @@ import Button from "@mui/material/Button"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import Container from "@mui/material/Container"
 import Grid from "@mui/material/Grid"
-
+import Link from "@mui/material/Link"
+import ProductDetail from "./ProductDetail"
+import { prodErrorMap } from "firebase/auth"
 const theme = createTheme()
 
-const Product = ({ items, addToCart, userId }, props) => (
-  <div>
-    <ThemeProvider theme={theme}>
-      <main>
-        <Container sx={{ py: 8 }} maxWidth="md">
-          <Grid container spacing={6}>
-            {items.map((item) => (
-              <Grid item key={item.id} xs={12} sm={6} md={4}>
-                <div>
-                  <CardMedia
-                    component="img"
-                    height="100%"
-                    image={item.image}
-                    alt="green iguana"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {item.title}
-                    </Typography>
-                    <Button onClick={() => console.log(props)}>
-                      Add To Cart
-                    </Button>
-                    <Typography variant="h6" gutterBottom component="div">
-                      ${item.price}
-                    </Typography>
-                  </CardContent>
-                </div>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </main>
-    </ThemeProvider>
-  </div>
-)
+const Product = ({ items, setProductState }) => {
+  return (
+    <div>
+      <ThemeProvider theme={theme}>
+        <main>
+          <Container sx={{ py: 8 }} maxWidth="md">
+            <Grid container spacing={6}>
+              {items.map((item) => (
+                <Grid item key={item.id} xs={12} sm={6} md={4}>
+                  <div onClick={() => setProductState(item)}>
+                    <Link href={`product-detail/${item.id}`}>
+                      <CardMedia
+                        component="img"
+                        height="100%"
+                        image={item.image}
+                        alt="green iguana"
+                      />
+                    </Link>
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {item.title}
+                      </Typography>
+                      <Button onClick={""}>Add To Cart</Button>
+                      <Typography variant="h6" gutterBottom component="div">
+                        ${item.price}
+                      </Typography>
+                    </CardContent>
+                  </div>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </main>
+      </ThemeProvider>
+    </div>
+  )
+}
 
 export default Product

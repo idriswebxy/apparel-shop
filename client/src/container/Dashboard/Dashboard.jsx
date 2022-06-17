@@ -15,22 +15,23 @@ const Dashboard = () => {
   const navigate = useNavigate()
   // const authz = useRecoilValue(authState)
   const setIsLoading = useSetRecoilState(loadingState)
-  const [items, setItems] = useRecoilState(productState)
+  const [items, setItems] = useState([])
 
   // const getAllProducts = async () => {
   //   await axios.get("https://fakestoreapi.com/products").then((res) => {
   //     setItems(res.data)
-  //     setIsLoading(false)
+  //     // setIsLoading(false)
   //   })
   // }
 
   useEffect(() => {
-    setIsLoading(false)
-  }, [items])
+    // getAllProducts()
+    console.log(items)
+  }, [])
 
   return (
     <div>
-      <Products items={items} addToCart={addToCart} />
+      <Products items={items} addToCart={addToCart} />)
     </div>
   )
 }
