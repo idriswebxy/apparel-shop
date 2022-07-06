@@ -8,10 +8,14 @@ import Container from "@mui/material/Container"
 import Grid from "@mui/material/Grid"
 import Link from "@mui/material/Link"
 import ProductDetail from "./ProductDetail"
-import { prodErrorMap } from "firebase/auth"
+import { useRecoilState, useRecoilValue } from "recoil"
+import { fetchProducts, productState } from "../../store/product"
+
 const theme = createTheme()
 
-const Product = ({ items, setProductState }) => {
+const Product = ({ items, setItem }) => {
+  useEffect(() => {}, [])
+
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -20,7 +24,7 @@ const Product = ({ items, setProductState }) => {
             <Grid container spacing={6}>
               {items.map((item) => (
                 <Grid item key={item.id} xs={12} sm={6} md={4}>
-                  <div onClick={() => setProductState(item)}>
+                  <div onClick={() => setItem(item)}>
                     <Link href={`product-detail/${item.id}`}>
                       <CardMedia
                         component="img"

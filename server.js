@@ -1,21 +1,7 @@
 const express = require("express")
 const app = express()
 const cors = require("cors")
-var admin = require("firebase-admin")
-
-var serviceAccount = require("./service/clothing-store-76c58-firebase-adminsdk-xebij-d1fd355e43.json")
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: process.env.FIREBASE_DATABASE,
-})
-
-// As an admin, the app has access to read and write all data, regardless of Security Rules
-var db = admin.database()
-var ref = db.ref("/users")
-ref.once("value", function (snapshot) {
-  console.log(snapshot.val())
-})
+require("dotenv").config()
 
 app.use(cors())
 

@@ -19,6 +19,7 @@ import { auth, signInUser } from "../../firebase"
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth"
 import { authState } from "../../store/auth"
 import { useRecoilState } from "recoil"
+import { loadingState } from "../../store/loader"
 
 function Copyright(props) {
   return (
@@ -46,24 +47,22 @@ const SignIn = () => {
   const navigate = useNavigate()
   const [user, loading, error] = useAuthState(auth)
   const [signInWithGoogle] = useSignInWithGoogle(auth)
-  const [authz, setAuth] = useRecoilState(authState)
 
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     signInUser(auth, data.get("email"), data.get("password"))
-    setAuth(true)
     navigate("/products")
   }
 
-  useEffect(() => {
-    if (user) {
-      // localStorage.setItem("userToken", user.accessToken)
-    }
-    if (loading) {
-      return <Loader />
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (user) {
+  //     // localStorage.setItem("userToken", user.accessToken)
+  //   }
+  //   if (loading) {
+  //     return <Loader />
+  //   }
+  // }, [])
 
   return (
     <ThemeProvider theme={theme}>

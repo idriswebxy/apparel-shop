@@ -6,16 +6,19 @@ import Loader from "../Loader/Loader"
 import { useNavigate } from "react-router-dom"
 import { auth } from "../../firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { fetchProducts, productState } from "../../store/product"
+import {
+  fetchProducts,
+  productState,
+  setProductState,
+} from "../../store/product"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
-import { selectedProductState } from "../../store/product"
+
 import { loadingState } from "../../store/loader"
 
 const Products = (props) => {
   const [loading] = useAuthState(auth)
   const [isLoading, setIsLoading] = useRecoilState(loadingState)
-  const items = useRecoilValue(fetchProducts)
-  const setProductState = useSetRecoilState(selectedProductState)
+  const [items, setItem] = useRecoilState(fetchProducts)
 
   useEffect(() => {
     setIsLoading(false)
@@ -23,11 +26,7 @@ const Products = (props) => {
 
   return (
     <div>
-      {isLoading || loading ? (
-        <Loader />
-      ) : (
-        <Product items={items} setProductState={setProductState} />
-      )}
+      {isLoading ? <Loader /> : <Product items={items} setItem={setItem} />}
     </div>
   )
 }
