@@ -10,6 +10,7 @@ import Link from "@mui/material/Link"
 import ProductDetail from "./ProductDetail"
 import { useRecoilState, useRecoilValue } from "recoil"
 import { fetchProducts, productState } from "../../store/product"
+// import { addToCart } from "../../../../queries"
 
 const theme = createTheme()
 
