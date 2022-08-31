@@ -7,18 +7,18 @@ const pool = new Pool({
   port: 5432,
 })
 
-// pool.connect((err, client, release) => {
-//   if (err) {
-//     return console.error("Error acquiring client", err.stack)
-//   }
-//   client.query("SELECT NOW()", (err, result) => {
-//     release()
-//     if (err) {
-//       return console.error("Error executing query", err.stack)
-//     }
-//     console.log(result.rows)
-//   })
-// })
+pool.connect((err, client, release) => {
+  if (err) {
+    return console.error("Error acquiring client", err.stack)
+  }
+  client.query("SELECT NOW()", (err, result) => {
+    release()
+    if (err) {
+      return console.error("Error executing query", err.stack)
+    }
+    console.log(result.rows)
+  })
+})
 
 const getCart = (request, response) => {
   pool.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
