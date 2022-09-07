@@ -27,6 +27,7 @@ import { auth } from "../../firebase"
 // import GoogleButton from "react-google-button"
 import Spinner from "../Loader/Loader"
 import { signUpUser } from "../../firebase"
+import axios from "axios"
 
 function Copyright(props) {
   return (
@@ -61,11 +62,14 @@ const SignUp = () => {
 
   // const { setTimeActive } = useAuthValue()   console.log()
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     // createUserWithEmailAndPassword(data.get("email"), data.get("password"))
-    signUpUser(auth, data.get("email"), data.get("password"))
+    // signUpUser(auth, data.get("email"), data.get("password"))
+    const body = [data.get("email"), data.get("password")]
+    await axios.post("/api/auth/register", body)
+    navigate("/products")
   }
   // const validatePassword = () => {
   //   let isValid = true

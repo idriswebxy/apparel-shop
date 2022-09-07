@@ -1,7 +1,5 @@
-import { atom } from "recoil"
-import { recoilPersist } from "recoil-persist"
-
-const { persistAtom } = recoilPersist()
+import { atom, selector } from "recoil"
+import axios from "axios"
 
 export const authState = atom({
   key: "authState",
@@ -11,4 +9,15 @@ export const authState = atom({
 export const userState = atom({
   key: "userState",
   default: null,
+})
+
+export const registerUser = atom({
+  key: "registerUser",
+  default: selector({
+    key: "registerUserApi",
+    get: async ({ get }) => {
+      const res = await axios.post("/api/auth/register")
+      return res.data
+    },
+  }),
 })

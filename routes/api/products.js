@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const axios = require("axios").default
+const { getCart } = require("../../queries")
 
 var admin = require("firebase-admin")
 require("dotenv").config()
@@ -20,6 +21,14 @@ router.get("/all_products", async (req, res) => {
   try {
     const response = await axios.get("https://fakestoreapi.com/products")
     res.json(response.data)
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+router.get("/getUserCart", async (req, res) => {
+  try {
+    getCart(req, res)
   } catch (error) {
     console.error(error)
   }

@@ -1,31 +1,31 @@
 const Pool = require("pg").Pool
 const pool = new Pool({
-  user: "newuser",
+  user: "idris",
   host: "localhost",
-  database: "api",
-  password: "password",
+  database: "apparel_db",
+  password: "",
   port: 5432,
 })
 
-pool.connect((err, client, release) => {
-  if (err) {
-    return console.error("Error acquiring client", err.stack)
-  }
-  client.query("SELECT NOW()", (err, result) => {
-    release()
-    if (err) {
-      return console.error("Error executing query", err.stack)
-    }
-    console.log(result.rows)
-  })
-})
+// pool.connect((err, client, release) => {
+//   if (err) {
+//     return console.error("Error acquiring client", err.stack)
+//   }
+//   client.query("SELECT NOW()", (err, result) => {
+//     release()
+//     if (err) {
+//       return console.error("Error executing query", err.stack)
+//     }
+//     console.log(result.rows)
+//   })
+// })
 
 const getCart = (request, response) => {
-  pool.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
+  pool.query("SELECT * FROM cart", (error, results) => {
     if (error) {
       throw error
     }
-    response.status(200).json(results.rows)
+    response.status(200).json(results)
   })
 }
 
@@ -40,18 +40,20 @@ const getCartByID = (request, response) => {
   })
 }
 
-const addToCart = () => {
-  // const { name, email } = request.body
-  console.log("Add exe❌")
-  pool.query("SELECT * FROM cart WHERE id = 1", (error, results) => {
-    if (error) {
-      throw error
-    }
-    // response.status(201).send(`User added with ID: ${results.insertId}`)
-  })
-}
+const addToCart = (req, res) => {
+  // const { userId, cartItem } = req.body
 
-addToCart()
+  pool.query(
+    `INSERT INTO cart (userid, cartitem) VALUES (142, 'Jurassic Park Book')`,
+    (error, results) => {
+      if (error) {
+        throw error
+      }
+      results.rows.map((v) => console.log(v))
+      res.status(200).json(results.rows)
+    }
+  )
+}
 
 const updateCart = (request, response) => {
   const id = parseInt(request.params.id)
@@ -86,4 +88,5 @@ module.exports = {
   addToCart,
   updateCart,
   deleteCartItem,
+  pool,
 }

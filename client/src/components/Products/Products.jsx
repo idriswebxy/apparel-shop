@@ -16,7 +16,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import { loadingState } from "../../store/loader"
 
 const Products = (props) => {
-  const [loading] = useAuthState(auth)
+  const [loading, user] = useAuthState(auth)
   const [isLoading, setIsLoading] = useRecoilState(loadingState)
   const [items, setItem] = useRecoilState(fetchProducts)
 

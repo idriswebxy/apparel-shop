@@ -20,6 +20,7 @@ import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth"
 import { authState } from "../../store/auth"
 import { useRecoilState } from "recoil"
 import { loadingState } from "../../store/loader"
+import axios from "axios"
 
 function Copyright(props) {
   return (
@@ -49,6 +50,7 @@ const SignIn = () => {
   const [signInWithGoogle] = useSignInWithGoogle(auth)
 
   const handleSubmit = (event) => {
+    console.log(auth)
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     signInUser(auth, data.get("email"), data.get("password"))
