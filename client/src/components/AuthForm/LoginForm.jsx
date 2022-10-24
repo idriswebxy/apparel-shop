@@ -49,11 +49,14 @@ const SignIn = () => {
   const [user, loading, error] = useAuthState(auth)
   const [signInWithGoogle] = useSignInWithGoogle(auth)
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     console.log(auth)
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    signInUser(auth, data.get("email"), data.get("password"))
+    // signInUser(auth, data.get("email"), data.get("password"))
+    const body = [data.get("email"), data.get("password")]
+    let res = await axios.post("/api/auth/login", body)
+    console.log(res)
     navigate("/products")
   }
 
