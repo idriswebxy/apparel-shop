@@ -30,24 +30,36 @@ pool.connect((err, client, release) => {
 router.post("/register", async (req, res) => {
   const email = req.body[0]
   const password = req.body[1]
+  const salt = await bcrypt.genSalt(10)
+  let newPassword = await bcrypt.hash(password, salt)
 
-  // await bcrypt.hash(password, salt)
-  // const salt = await bcrypt.genSalt(10)
-  await pool.query(
-    `INSERT INTO users (id, email, password) VALUES ('id SERIAL UNIQUE', ${email}', '${password}')`,
-    (error, results) => {
-      if (error) {
-        throw error
+  try {
+    pool.query(
+      `INSERT INTO users (email, password) VALUES ('${email}', '${newPassword}`,
+      (error, results) => {
+        if (error) {
+          throw error
+        }
+        response.send(200).json(results)
       }
-      response.send(200).json(results)
-    }
-  )
+    )
+  } catch (error) {
+    console.error(error)
+  }
 })
 
 router.get("/login", async (req, res) => {
   const { email, password } = req.body
   try {
-    pool.query()
+    pool.query(
+      `SELECT email FROM users WHERE email = ${email}`,
+      (error, results) => {
+        if (error) {
+          throw error
+        }
+        res.sendFile(200).json(results)
+      }
+    )
   } catch (error) {}
 })
 
