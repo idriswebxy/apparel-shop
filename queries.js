@@ -1,27 +1,7 @@
-const Pool = require("pg").Pool
-const pool = new Pool({
-  user: "idris",
-  host: "localhost",
-  database: "apparel_db",
-  password: "",
-  port: 5432,
-})
-
-// pool.connect((err, client, release) => {
-//   if (err) {
-//     return console.error("Error acquiring client", err.stack)
-//   }
-//   client.query("SELECT NOW()", (err, result) => {
-//     release()
-//     if (err) {
-//       return console.error("Error executing query", err.stack)
-//     }
-//     console.log(result.rows)
-//   })
-// })
+const { query } = require("./database/index.js")
 
 const getCart = (request, response) => {
-  pool.query("SELECT * FROM cart", (error, results) => {
+  query("SELECT * FROM cart", (error, results) => {
     if (error) {
       throw error
     }
@@ -88,5 +68,4 @@ module.exports = {
   addToCart,
   updateCart,
   deleteCartItem,
-  pool,
 }

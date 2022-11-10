@@ -4,38 +4,37 @@ const axios = require("axios").default
 // const pool = require("../../queries")
 const bcrypt = require("bcrypt")
 const { response } = require("express")
-const Pool = require("pg").Pool
+// const Pool = require("pg").Pool
+const pool = require("../../database/index.js")
 
-const pool = new Pool({
-  user: "idris",
-  host: "localhost",
-  database: "apparel_db",
-  password: "",
-  port: 5432,
-})
+// const pool = new Pool({
+//   user: "idris",
+//   host: "localhost",
+//   database: "apparel_db",
+//   password: "",
+//   port: 5432,
+// })
 
-pool.connect((err, client, release) => {
-  if (err) {
-    return console.error("Error acquiring client", err.stack)
-  }
-  client.query("SELECT NOW()", (err, result) => {
-    release()
-    if (err) {
-      return console.error("Error executing query", err.stack)
-    }
-    console.log(result.rows)
-  })
-})
+// pool.connect((err, client, release) => {
+//   if (err) {
+//     return console.error("Error acquiring client", err.stack)
+//   }
+//   client.query("SELECT NOW()", (err, result) => {
+//     release()
+//     if (err) {
+//       return console.error("Error executing query", err.stack)
+//     }
+//     console.log(result.rows)
+//   })
+// })
 
 router.post("/register", async (req, res) => {
-  const email = req.body[0]
-  const password = req.body[1]
+  const { email, password } = req.body
   const salt = await bcrypt.genSalt(10)
-  let newPassword = await bcrypt.hash(password, salt)
-
+  const newPassword = await bcrypt.hash(password, salt)
   try {
     pool.query(
-      `INSERT INTO users (email, password) VALUES ('${email}', '${newPassword}`,
+      `INSERT INTO users (email, password) VALUES ('${email}', '${newPassword}')`,
       (error, results) => {
         if (error) {
           throw error
@@ -44,7 +43,7 @@ router.post("/register", async (req, res) => {
       }
     )
   } catch (error) {
-    console.error(error)
+    res.status(500).send("Error Registering User!")
   }
 })
 

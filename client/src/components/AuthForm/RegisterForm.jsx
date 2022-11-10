@@ -64,22 +64,49 @@ const SignUp = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
     // createUserWithEmailAndPassword(data.get("email"), data.get("password"))
     // signUpUser(auth, data.get("email"), data.get("password"))
-    const body = [data.get("email"), data.get("password")]
-    await axios.post("/api/auth/register", body)
-    navigate("/products")
+    // const body = [data.get("email"), data.get("password")]
+    // const data = { email: email.target.value, password: password.target.value }
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email.target.value,
+        password: password.target.value,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+    console.log(res)
   }
-  // const validatePassword = () => {
-  //   let isValid = true
-  // if (password !== "" && confirmPassword !== "") {
-  //     if (password !== confirmPassword) {
-  //       isValid = false
-  //       setError("Passwords does not match")
+
+  // const handleChange = (event) => {
+
+  //   const validatePassword = () => {
+  //     let isValid = true
+  //     if (password !== "" && confirmPassword !== "") {
+  //       if (password !== confirmPassword) {
+  //         isValid = false
+  //         console.log("Passwords does not match")
+  //       }
   //     }
   //   }
+  // }
 
+  // const handleChange = (event) => {
+  //   setEmail({
+  //     ...email,
+  //     [event.target.name]: event.target.value,
+  //   })
+  //   setPassword({
+  //     ...password,
+  //     [event.target.name]: event.target.value,
+  //   })
+  // }
   // const register = (e) => {
   //   e.preventDefault()
   //   setError("")
@@ -105,9 +132,6 @@ const SignUp = () => {
     if (loading) {
       return <Spinner />
     }
-    // if (user) {
-    //   navigate("/dashboard")
-    // }
   }, [user, loading])
 
   return (
@@ -131,8 +155,8 @@ const SignUp = () => {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
             sx={{ mt: 3 }}
+            onSubmit={handleSubmit}
           >
             <Grid container spacing={2}>
               {/* <Grid item xs={12} sm={12}>
@@ -154,6 +178,7 @@ const SignUp = () => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={(e) => setEmail(e)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -165,6 +190,7 @@ const SignUp = () => {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={(e) => setPassword(e)}
                 />
               </Grid>
             </Grid>

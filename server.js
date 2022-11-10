@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 const cors = require("cors")
 require("dotenv").config()
-const db = require("./queries")
+// const db = require("./queries")
 
 app.use(cors())
 
