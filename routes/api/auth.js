@@ -6,6 +6,8 @@ const bcrypt = require("bcrypt")
 const { response } = require("express")
 // const Pool = require("pg").Pool
 const pool = require("../../database/index.js")
+const jwt = require("jsonwebtoken")
+const { check, validationResult } = require("express-validator")
 
 // const pool = new Pool({
 //   user: "idris",
@@ -28,24 +30,35 @@ const pool = require("../../database/index.js")
 //   })
 // })
 
-router.post("/register", async (req, res) => {
-  const { email, password } = req.body
-  const salt = await bcrypt.genSalt(10)
-  const newPassword = await bcrypt.hash(password, salt)
-  try {
-    pool.query(
-      `INSERT INTO users (email, password) VALUES ('${email}', '${newPassword}')`,
-      (error, results) => {
-        if (error) {
-          throw error
+router.post(
+  "/register",
+  [
+    check("email", "Please enter a valid email!").isEmail(),
+    check(
+      "password",
+      "Please enter a password with 6 or more characters!"
+    ).isLength({ min: 6 }),
+  ],
+  async (req, res) => {
+    const { email, password } = req.body
+    const salt = await bcrypt.genSalt(10)
+    const newPassword = await bcrypt.hash(password, salt)
+
+    try {
+      pool.query(
+        `INSERT INTO users (email, password) VALUES ('${email}', '${newPassword}')`,
+        (error, results) => {
+          if (error) {
+            throw error
+          }
+          console.log(results)
         }
-        response.send(200).json(results)
-      }
-    )
-  } catch (error) {
-    res.status(500).send("Error Registering User!")
+      )
+    } catch (error) {
+      res.status(500).send("Error Registering User!")
+    }
   }
-})
+)
 
 router.get("/login", async (req, res) => {
   const { email, password } = req.body
@@ -56,13 +69,14 @@ router.get("/login", async (req, res) => {
         if (error) {
           throw error
         }
-        res.sendFile(200).json(results)
+        res.send(200).json(results)
       }
     )
   } catch (error) {}
 })
 
 router.get("/all_users", async (req, res) => {
+  console.log("all userssss")
   await pool.query("SELECT * FROM users", (error, results) => {
     if (error) {
       throw error

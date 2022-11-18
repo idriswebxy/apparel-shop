@@ -28,6 +28,7 @@ import { auth } from "../../firebase"
 import Spinner from "../Loader/Loader"
 import { signUpUser } from "../../firebase"
 import axios from "axios"
+import { testServer } from "../../store/auth"
 
 function Copyright(props) {
   return (
@@ -68,19 +69,19 @@ const SignUp = () => {
     // signUpUser(auth, data.get("email"), data.get("password"))
     // const body = [data.get("email"), data.get("password")]
     // const data = { email: email.target.value, password: password.target.value }
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
+    const config = {
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        email: email.target.value,
-        password: password.target.value,
-      }),
+    }
+
+    console.log(email.target.value, password.target.value)
+    const body = JSON.stringify({
+      email: email.target.value,
+      password: password.target.value,
     })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
+
+    const res = await axios.post("api/auth/register", body, config)
     console.log(res)
   }
 

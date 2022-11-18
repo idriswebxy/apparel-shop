@@ -8,7 +8,14 @@ export const authState = atom({
 
 export const userState = atom({
   key: "userState",
-  default: null,
+  default: "",
+})
+
+export const testServer = atom({
+  key: "testServer",
+  get: ({ get }) => {
+    return fetch("api/auth/all_users")
+  },
 })
 
 export const registerUser = atom({
