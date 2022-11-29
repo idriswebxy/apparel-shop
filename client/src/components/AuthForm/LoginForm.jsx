@@ -17,9 +17,9 @@ import GoogleButton from "react-google-button"
 import Loader from "../Loader/Loader"
 import { auth, signInUser } from "../../firebase"
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth"
-import { authState } from "../../store/auth"
+import { authState } from "../../api/store/auth"
 import { useRecoilState } from "recoil"
-import { loadingState } from "../../store/loader"
+import { loadingState } from "../../api/store/loader"
 import axios from "axios"
 
 function Copyright(props) {

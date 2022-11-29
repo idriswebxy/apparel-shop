@@ -20,8 +20,9 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import ShoppingCartIcon from "../Badges/ShoppingCartIcon"
 import LogoutIcon from "@mui/icons-material/Logout"
 import Loader from "../Loader/Loader"
-import { authState } from "../../store/auth"
+import { authState } from "../../api/store/auth"
 import { useRecoilState } from "recoil"
+import { ErrorAlert } from "../Alert/Alerts"
 
 const drawerWidth = 240
 
@@ -117,6 +118,7 @@ const NavBar = () => {
         {fullList}
         <Divider />
       </Drawer>
+      {/* <ErrorAlert /> */}
     </Box>
   )
 }

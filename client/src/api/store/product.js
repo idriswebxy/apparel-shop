@@ -11,23 +11,10 @@ export const fetchProducts = atom({
   default: selector({
     key: "fetchAllProductsApi",
     get: async ({ get }) => {
+      let prod = get(productState)
       const res = await axios.get("/api/products/all_products")
-      // await productState.push(res.data)
-      return res.data
+      prod = [...res.data]
+      return prod
     },
   }),
 })
-
-export const setProductState = selector({
-  key: "setProductState",
-  default: [],
-  get: async ({ get }) => {
-    const state = await get(productState)
-    return state
-  },
-})
-
-// export const selectedProductState = selector({
-//   key: "selectedProductState",
-
-// })

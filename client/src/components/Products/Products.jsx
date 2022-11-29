@@ -10,10 +10,10 @@ import {
   fetchProducts,
   productState,
   setProductState,
-} from "../../store/product"
+} from "../../api/store/product"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 
-import { loadingState } from "../../store/loader"
+import { loadingState } from "../../api/store/loader"
 
 const Products = (props) => {
   const [loading, user] = useAuthState(auth)

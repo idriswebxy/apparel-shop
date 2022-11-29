@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useRecoilValue } from "recoil"
-import { fetchProducts, productState } from "../../store/product"
+import { fetchProducts, productState } from "../../api/store/product"
 // import { selectedProductState } from "../../store/product"
 
 const ProductDetail = () => {

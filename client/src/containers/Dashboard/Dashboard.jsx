@@ -4,11 +4,11 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import { addToCart, auth } from "../../firebase"
 import { useNavigate } from "react-router-dom"
 import Loader from "../../components/Loader/Loader"
-import { authState } from "../../store/auth"
+import { authState } from "../../api/store/auth"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import axios from "axios"
-import { getAllProducts, productState } from "../../store/product"
-import { loadingState } from "../../store/loader"
+import { getAllProducts, productState } from "../../api/store/product"
+import { loadingState } from "../../api/store/loader"
 
 const Dashboard = () => {
   const [user, loading] = useAuthState(auth)

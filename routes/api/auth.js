@@ -44,18 +44,18 @@ router.post(
     const salt = await bcrypt.genSalt(10)
     const newPassword = await bcrypt.hash(password, salt)
 
-    try {
+    if (!email) {
       pool.query(
         `INSERT INTO users (email, password) VALUES ('${email}', '${newPassword}')`,
         (error, results) => {
           if (error) {
             throw error
           }
-          console.log(results)
+          res.status(200).send("Registered successfully! You can now login.")
         }
       )
-    } catch (error) {
-      res.status(500).send("Error Registering User!")
+    } else {
+      res.send("Unable to register, user already exists.")
     }
   }
 )
@@ -69,14 +69,13 @@ router.get("/login", async (req, res) => {
         if (error) {
           throw error
         }
-        res.send(200).json(results)
+        res.send(200).json(`User ${email} successfully registered!`)
       }
-    )
+    ) 
   } catch (error) {}
 })
 
 router.get("/all_users", async (req, res) => {
-  console.log("all userssss")
   await pool.query("SELECT * FROM users", (error, results) => {
     if (error) {
       throw error

@@ -28,7 +28,8 @@ import { auth } from "../../firebase"
 import Spinner from "../Loader/Loader"
 import { signUpUser } from "../../firebase"
 import axios from "axios"
-import { testServer } from "../../store/auth"
+import { registerUser, testServer, userState } from "../../api/store/auth"
+import { useSetRecoilState } from "recoil"
 
 function Copyright(props) {
   return (
@@ -61,7 +62,7 @@ const SignUp = () => {
   const [createUserWithEmailAndPassword, error] =
     useCreateUserWithEmailAndPassword(auth)
 
-  // const { setTimeActive } = useAuthValue()   console.log()
+  const setNewUser = useSetRecoilState(userState)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -75,13 +76,16 @@ const SignUp = () => {
       },
     }
 
-    console.log(email.target.value, password.target.value)
-    const body = JSON.stringify({
+    // const body = JSON.stringify({
+    //   email: email.target.value,
+    //   password: password.target.value,
+    // })
+    setNewUser({
       email: email.target.value,
       password: password.target.value,
     })
-
-    const res = await axios.post("api/auth/register", body, config)
+    // const res = await axios.post("api/auth/register", body, config)
+    const res = await registerUser()
     console.log(res)
   }
 

@@ -3,7 +3,7 @@ import Alert from "@mui/material/Alert"
 import Stack from "@mui/material/Stack"
 import { alertSender } from "../../utils/alertSender"
 
-const successAlert = (
+const SuccessAlert = (
   <div>
     <Stack sx={{ width: "100%" }} spacing={2}>
       <Alert variant="filled" severity="success">
@@ -13,7 +13,7 @@ const successAlert = (
   </div>
 )
 
-const errorAlert = (
+const ErrorAlert = (
   <div>
     <Stack sx={{ width: "100%" }} spacing={2}>
       <Alert variant="filled" severity="error">
@@ -23,7 +23,7 @@ const errorAlert = (
   </div>
 )
 
-const warningAlert = (
+const WarningAlert = (
   <div>
     <Stack sx={{ width: "100%" }} spacing={2}>
       <Alert variant="filled" severity="warning">
@@ -33,7 +33,7 @@ const warningAlert = (
   </div>
 )
 
-const infoAlert = (
+const InfoAlert = (
   <div>
     <Stack sx={{ width: "100%" }} spacing={2}>
       <Alert variant="filled" severity="info">
@@ -43,4 +43,4 @@ const infoAlert = (
   </div>
 )
 
-export { successAlert, errorAlert, warningAlert, infoAlert }
+export { SuccessAlert, ErrorAlert, WarningAlert, InfoAlert }
