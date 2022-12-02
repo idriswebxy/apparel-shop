@@ -6,11 +6,6 @@ const userAuthDefault = {
   user: null,
 }
 
-export const authState = atom({
-  key: "authState",
-  default: false,
-})
-
 export const userState = atom({
   key: "userState",
   default: userAuthDefault,
@@ -26,9 +21,8 @@ export const testServer = atom({
 export const registerUser = atom({
   key: "registerUser",
   get: async ({ get }) => {
-    const body = get(userState)
-    console.log(body)
-    const res = await axios.post("/api/auth/register", body)
+    const user = get(userState)
+    const res = await axios.post("/api/auth/register", user)
     return res.data
   },
 })

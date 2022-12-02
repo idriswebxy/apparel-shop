@@ -13,7 +13,7 @@ import ProductDetail from "./components/Products/ProductDetail"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth } from "../src/firebase"
 import CartPage from "./containers/Cart/CartPage"
-import { SuccessAlert, ErrorAlert } from "./components/Alert/Alerts"
+import { successAlert, errorAlert } from "./components/Alert/Alerts"
 import { useEffect } from "react"
 import { alertSender } from "./utils/alertSender"
 import { useNavigate } from "react-router-dom"
@@ -33,7 +33,7 @@ const App = () => {
 
   return (
     <Suspense fallback={<Loader />}>
-      {alert ? SuccessAlert : null}
+      {/* {alert ? SuccessAlert : null} */}
       <NavBar />
       <Routes>
         <Route path="*" element={<Page404 />} />

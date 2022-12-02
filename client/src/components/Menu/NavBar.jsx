@@ -20,9 +20,9 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import ShoppingCartIcon from "../Badges/ShoppingCartIcon"
 import LogoutIcon from "@mui/icons-material/Logout"
 import Loader from "../Loader/Loader"
-import { authState } from "../../api/store/auth"
-import { useRecoilState } from "recoil"
-import { ErrorAlert } from "../Alert/Alerts"
+import { useRecoilState, useRecoilValue } from "recoil"
+import { errorAlert } from "../Alert/Alerts"
+import { alertStatus } from "../../api/store/alerts"
 
 const drawerWidth = 240
 
@@ -47,7 +47,7 @@ const NavBar = () => {
   const [open, setOpen] = useState(false)
   const [user, loading, error] = useAuthState(auth)
   const navigate = useNavigate()
-  const [isAuthenicated, setIsAuthenticated] = useRecoilState(authState)
+  const alertUsr = useRecoilValue(alertStatus)
 
   const toggleDrawer = (open) => (event) => {
     setOpen(open)
@@ -57,7 +57,9 @@ const NavBar = () => {
     logOut()
   }
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    console.log(alertUsr)
+  }, [alertUsr])
 
   return (
     <Box sx={{ flexGrow: 1 }} onKeyDown={toggleDrawer(false)}>
@@ -83,7 +85,6 @@ const NavBar = () => {
                 <Button onClick={() => navigate("/cart")} color="inherit">
                   <ShoppingCartIcon totalItems={""} />
                 </Button>
-
                 <Button onClick={() => signOut()} color="inherit" href="/login">
                   <LogoutIcon />
                 </Button>
@@ -118,7 +119,7 @@ const NavBar = () => {
         {fullList}
         <Divider />
       </Drawer>
-      {/* <ErrorAlert /> */}
+      {alertUsr ? errorAlert(alertUsr) : null}
     </Box>
   )
 }

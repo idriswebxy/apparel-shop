@@ -29,7 +29,8 @@ import Spinner from "../Loader/Loader"
 import { signUpUser } from "../../firebase"
 import axios from "axios"
 import { registerUser, testServer, userState } from "../../api/store/auth"
-import { useSetRecoilState } from "recoil"
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil"
+import { alertSwitch, alertStatus } from "../../api/store/alerts"
 
 function Copyright(props) {
   return (
@@ -63,6 +64,7 @@ const SignUp = () => {
     useCreateUserWithEmailAndPassword(auth)
 
   const setNewUser = useSetRecoilState(userState)
+  const [alert, setAlert] = useRecoilState(alertStatus)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -76,17 +78,19 @@ const SignUp = () => {
       },
     }
 
-    // const body = JSON.stringify({
-    //   email: email.target.value,
-    //   password: password.target.value,
-    // })
     setNewUser({
       email: email.target.value,
       password: password.target.value,
     })
-    // const res = await axios.post("api/auth/register", body, config)
-    const res = await registerUser()
-    console.log(res)
+
+    const body = JSON.stringify({
+      email: email.target.value,
+      password: password.target.value,
+    })
+
+    const res = await axios.post("api/auth/register", body, config)
+
+    setAlert(res.data)
   }
 
   // const handleChange = (event) => {
